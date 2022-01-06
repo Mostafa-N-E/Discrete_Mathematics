@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %} Login{% endblock %}
+
+{% block pagenaiton_nav-menu %}
+    <div style="margin-top: 20vh;margin-bottom: 20vh;">
+        <li class="active ">
+            <a href="{% url 'home' %}">
+                <i class="bx bx-home"></i> <span>Home</span>
+            </a>
+        </li>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <section class="ftco-section min-vh-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    {#					<h2 class="heading-section">Login #01</h2>#}
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-5">
+                    <div class="card login p-4 p-md-5 " style="margin-top: 7vh">
+                        <div class="icon d-flex align-items-center justify-content-center mb-2">
+                            <img width="200vm" src="{% static 'img/lamp.jpeg' %}">
+                        </div>
+                        <h3 class="text-center mb-4">Bullet and box permutations</h3>
+                        {% csrf_token %}
+                        <form action="" id="calc" class="login mt-4" method="post" name="{{ csrf_token }}">
+
+                            <div class="form-group ">
+                                <input id="k" type="number" class="form-control mt-1 button"
+                                       placeholder="number of boxes" required>
+                            </div>
+                            <div class="form-group d-flex mt-2">
+                                <input id="n" type="number" class="form-control mt-1 button"
+                                       placeholder="number of buttels" required>
+                            </div>
+{#                            <div class="">#}
+                                <div class="d-flex justify-content-center form-group d-flex mt-2">
+                                    <div class="radio">
+                                        <label><input id="o1" type="checkbox" name="optradio1">The bullets are distinct</label>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center form-group d-flex mt-2">
+                                    <div class="radio">
+                                        <label><input id="o2" type="checkbox" name="optradio2">The boxes are distinct</label>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center form-group d-flex mt-2">
+                                    <div class="radio ">
+                                        <label><input id="o3" type="checkbox" name="optradio3">Boxes can be empty</label>
+                                    </div>
+                                </div>
+{#                            </div>#}
+                            <div class="form-group">
+                                <button onclick=""  id="submit" type="submit" style="border-radius: 25px;"
+                                        class="form-control btn btn-primary submit px-3">Calculate
+                                </button>
+                            </div>
+
+                        </form>
+                        <div class="d-flex justify-content-between">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <!-- Modal body -->
+                <div class="modal-body text-center ">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <br>
+                    <hr>
+                    <h4 id="error-message">{% translate 'Error' %}</h4>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{% static 'js/login/jquery.min.js' %}"></script>
+    <script>
+        // contact_us
+        $("#calc").submit(function (e) {
+            e.preventDefault();
+            let form = $(this);
+            // let url = form.attr('action');
+            let csrf = form.attr('name');
+            let n = $('#n').val()
+            let k = $('#k').val()
+            let o1 = $('#o1').prop('checked')
+            let o2 = $('#o2').prop('checked')
+            let o3 = $('#o3').prop('checked')
+            // let current_url = document.URL
+
+            $.ajax({
+                type: "POST",
+                //dataType: "json",
+                data: {
+                    'csrfmiddlewaretoken': csrf,
+                    'n': n,
+                    'k': k,
+                    'o1': o1,
+                    'o2': o2,
+                    'o3': o3
+                },
+                url: "/api/calculate/",
+                success: function (e) {
+                    // $('#Modal-message').html("Your message has been sent. Thank you");
+                    // $("#Modal").modal();
+                    swal({
+                        title:  "answer",
+                        text: e.message,//"Product added to your basket",
+                        icon: "success",
+                        button: "ok!",
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    swal({
+                        title: `Error!`,
+                        text: xhr.responseText,
+                        icon: "error",
+                        button: `Ok`,
+                    });
+                }
+            });
+        });
+
+    </script>
+{#    <a id="HOME" href="{% url 'home' %}" type=""> </a>#}
+{% endblock %}
+
+{% block CSS %}
+    <link rel="stylesheet" href="{% static 'css/login/style.css' %}">
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/login/jquery.min.js' %}"></script>
+    <script src="{% static 'js/login/main.js' %}"></script>
+
+{% endblock %}
+
+
+
