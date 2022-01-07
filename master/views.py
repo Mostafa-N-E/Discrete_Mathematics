@@ -9,3 +9,7 @@ class HomeView(TemplateView):
 
 class CalculateView(TemplateView):
     template_name = "calc.html"
+
+
+class CatalanView(TemplateView):
+    template_name = "calc_catalan.html"

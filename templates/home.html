@@ -144,36 +144,45 @@
 
         <div class="row">
 {#            {% for category in categories %}#}
-                <div class="col-sm-12 col-md-6 d-flex align-items-stretch aos-init aos-animate d-flex justify-content-center"
+                <div class="col-sm-12 col-md-4 d-flex align-items-stretch aos-init aos-animate d-flex justify-content-center"
                      data-aos="zoom-in"
                      data-aos-delay="100">
                     <div class="icon-box iconbox-blue">
                         <div class="">
-                            <img src="{% static 'img/math_calc.png' %}" class="img" width="300vm" height="200vh" alt="..."
+                            <img src="{% static 'img/lamp.jpeg' %}" class="img" width="300vm" height="200vh" alt="..."
+                                 style="border-radius: 4%;">
+                        </div>
+                        <h4>Catalan numbers</h4>
+                            <p>The Catalan numbers are given by the formula<br>with Enter the index of your desired sentence get its value</p>
+                        <br>
+                        <a href="{% url 'calculate' %}" >
+                            <button type="button" class="btn btn-light w-100 align-items-end">
+                                Calculate
+                            </button>
+                        </a>
+                    </div>
+                </div>
+{#            {% endfor %}#}
+
+
+                <div class="col-sm-12 col-md-4 d-flex align-items-stretch aos-init aos-animate d-flex justify-content-center"
+                     data-aos="zoom-in"
+                     data-aos-delay="100">
+                    <div class="icon-box iconbox-blue">
+                        <div class="">
+                            <img src="{% static 'img/lamp.jpeg' %}" class="img" width="300vm" height="200vh" alt="..."
                                  style="border-radius: 4%;">
                         </div>
                         <h4>Box and bullet issues</h4>
-{#                        {% if category.description %}#}
                             <p>These issues are raised in such a way that we have a number of boxes and a number of bullets, in several ways Put the bullets in the boxes</p>
-{#                        {% endif %}#}
                         <br>
-                        <a href="{% url 'calculate' %}" >
+                        <a href="{% url 'catalan' %}" >
                             <button type="button" class="btn btn-light w-100">
                                 Calculate
                             </button>
                         </a>
-
-{#                        <hr>#}
-{#                        <button type="button" class="btn btn-light w-100" style="background-color: #d5d5d5 ;color: #0f0f0f">#}
-{#                            {% translate 'See articles in this category' %}#}
-{#                            <a href="{% url 'article:article_category' category.slug %}" class="btn float-right">#}
-{#                                <i class='bx bx-book-content' style="color: #fbfbfc"></i>#}
-{#                            </a>#}
-{#                        </button>#}
-
                     </div>
                 </div>
-{#            {% endfor %}#}
 
         </div>
 
@@ -264,8 +273,8 @@
                 </div>
 
                 <div class="col-lg-8 mt-5 mt-lg-0">
-{#{% url 'contact_us' %}#}
-                    <form action=""name="{{ csrf_token }}" id="contact_us" method="post" role="form"
+
+                    <form action="{% url 'contact_us' %}"name="{{ csrf_token }}" id="contact_us" method="post" role="form"
                           class="">
                         {% csrf_token %}
                         <div class="form-row">

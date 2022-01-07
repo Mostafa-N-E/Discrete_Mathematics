@@ -1,12 +1,6 @@
 
-
-
-
 class Permutation:
-    """
-
-    """
-    def __init__(self, boxes, bullets,being_different_bullets=False, being_different_boxes=False, being_empty_boxes=False):
+    def __init__(self, boxes, bullets ,being_different_bullets=False, being_different_boxes=False, being_empty_boxes=False):
         self.boxes = boxes
         self.bullets = bullets
         self.being_different_bullets = being_different_bullets
@@ -53,9 +47,20 @@ class Permutation:
         return (Permutation.stirlingNumber(k - 1, n - 1)
                 + (k - 1) * Permutation.stirlingNumber(k - 1, n))
 
+    @staticmethod
+    def state7(n, k):
+        """
+            function to calculate the 7th state
+        """
+        if ( n <k):
+            return 0
+        if (n == k or k== 1):
+            return 1
+        return (Permutation.state7(n - 1, k - 1) + Permutation.state7(n - k, k))
+
     def __determined_status(self):
         """
-
+            According to the conditions of the question form specified by the user, we specify the problem mode(status) to select the formula
         """
         if self.being_different_bullets:
             if self.being_different_boxes:
@@ -82,9 +87,10 @@ class Permutation:
 
     def get_resulte(self):
         """
-
+            After determining the state of the problem, we value its specific formula according to its state and return its value
         """
         self.__status = self.__determined_status()
+        # print(self.__status)
         if self.__status == 1:
             return self.boxes ** self.bullets
         elif self.__status == 2:
@@ -97,10 +103,29 @@ class Permutation:
                 res += Permutation.stirlingNumber(i, self.bullets)
             return res
         elif self.__status == 5:
-            return Permutation.combination(self.bullets+self.boxes-1, self.boxes-1)
+            return Permutation.combination(self.bullets + self.boxes - 1, self.boxes - 1)
         elif self.__status == 6:
-            return Permutation.combination(self.bullets-1, self.boxes-1)
-        elif self.__status == 7 or self.__status == 8:
-            return int(Permutation.factorial(self.bullets) / Permutation.factorial(self.bullets-self.boxes))
-            # return Permutation.factorial(self.bullets-1)/Permutation.factorial(self.bullets-self.boxes) + Permutation.factorial(self.bullets-self.boxes)/Permutation.factorial(self.bullets-2*self.boxes)
+            return Permutation.combination(self.bullets - 1, self.boxes - 1)
+        elif self.__status == 7:
+            return Permutation.state7(self.bullets, self.boxes)
+        elif self.__status == 8:
+            res = 0
+            for i in range(self.boxes):
+                res += Permutation.state7(self.bullets, i)
+            return res
+
+
+def catalan(n):
+    """
+        A recursive function to find nth catalan number
+    """
+    if n <= 1:
+        return 1
+
+    res = 0
+    for i in range(n):
+        res += catalan(i) * catalan(n-i-1)
+
+    return res
+
 

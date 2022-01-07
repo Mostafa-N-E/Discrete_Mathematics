@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import mixins
 
-from .main import Permutation
+from .main import Permutation, catalan
 from .serializers import ContactUsSerializer
 
 
@@ -30,6 +30,16 @@ class CalculateApi(APIView):
         }
 
 
+class CatalanApi(APIView):
+    def post(self, request, *args, **kwargs):
+        res = catalan(int(request.data['n']))
+        return Response(
+            {'message':str(res)},
+            status=status.HTTP_200_OK,
+        )
+
+
+
 
 class Contact_us(mixins.CreateModelMixin, GenericAPIView):
     """
@@ -39,4 +49,4 @@ class Contact_us(mixins.CreateModelMixin, GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         self.create(request, *args, **kwargs)
-        return Response({"message": _("Your message has been sent. Thank you"), "title": _("Success"), "button": _("Aww yiss")})
+        return Response({"message": "Your message has been sent. Thank you", "title": "Success", "button": "Aww yiss"})
